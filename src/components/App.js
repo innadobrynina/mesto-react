@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../index.css';
 import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
 import PopupWithForm from './PopupWithForm';
 /* import ImagePopup from "./ImagePopup"; */
-
+import configAPI from '../utils/Api.js';
 
 
 
@@ -15,6 +15,8 @@ function App() {
   const [isEditAvatarPopupOpen, setisEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setisAddPlacePopupOpen] = useState(false);
+
+  const [user, setUser] = useState({});
 
   function handleEditAvatarClick() {
     setisEditAvatarPopupOpen(true);
@@ -35,6 +37,20 @@ function App() {
     setisAddPlacePopupOpen(false)
   }
 
+  useEffect(() => {
+    configAPI.getUserInfo()
+      .then((results) => {
+        setUser(
+          {
+            name: results.name,
+            description: results.about,
+            avatar: results.avatar
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }, [])
 
 
 
@@ -45,6 +61,9 @@ function App() {
         onEditAvatar={handleEditAvatarClick}
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}
+        userAvatar={user.avatar}
+        userName={user.name}
+        userDescription={user.description}
       />
       <Footer />
       <PopupWithForm
