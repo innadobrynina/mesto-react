@@ -1,21 +1,97 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../index.css';
-import closeIcon from '../images/close_icon.svg'
 import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
+import PopupWithForm from './PopupWithForm';
+/* import ImagePopup from "./ImagePopup"; */
+
+
+
 
 
 function App() {
 
+  const [isEditAvatarPopupOpen, setisEditAvatarPopupOpen] = useState(false);
+  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setisAddPlacePopupOpen] = useState(false);
+
+  function handleEditAvatarClick() {
+    setisEditAvatarPopupOpen(true);
+  }
+
+  function handleEditProfileClick() {
+    setEditProfilePopupOpen(true);
+  }
+
+  function handleAddPlaceClick() {
+    setisAddPlacePopupOpen(true);
+  }
+
+
+  function closeAllPopups() {
+    setisEditAvatarPopupOpen(false);
+    setEditProfilePopupOpen(false);
+    setisAddPlacePopupOpen(false)
+  }
+
+
+
+
   return (
     <div className="root">
       <Header />
-      <Main />
+      <Main
+        onEditAvatar={handleEditAvatarClick}
+        onEditProfile={handleEditProfileClick}
+        onAddPlace={handleAddPlaceClick}
+      />
       <Footer />
+      <PopupWithForm
+        title='Редактировать профиль'
+        name='profile'
+        isOpen={isEditProfilePopupOpen}
+        onClose={closeAllPopups}>
+        <input className="popup__input popup__input_name" type="text" id="title-name" name="name" value="" placeholder="Имя" aria-label="Имя" required minlength="2" maxlength="40" />
+        <span className="popup__input-error popup__input-error_name" id="title-name-error"></span>
+        <input className="popup__input popup__input_about" type="text" id="about-name" name="about" value="" placeholder="Род деятельности" aria-label="О себе" required minlength="2" maxlength="200" />
+        <span className="popup__input-error popup__input-error_about" id="about-name-error"></span>
+      </PopupWithForm>
 
+      <PopupWithForm
+        title='Новое место'
+        name='add'
+        isOpen={isAddPlacePopupOpen}
+        onClose={closeAllPopups}>
+        <input className="popup__input popup__input_place" type="text" name="name" id="place-name" value="" placeholder="Название" required minlength="2" maxlength="30" />
+        <span className="popup__input-error popup__input-error_place" id="place-name-error"></span>
+        <input className="popup__input popup__input_image" type="url" name="link" id="link-image" value="" placeholder="Ссылка на картинку" required />
+        <span className="popup__input-error popup__input-error_image" id="link-image-error"></span>
+      </PopupWithForm>
 
-      <section className="popup popup-profile">
+      <PopupWithForm
+        title='Обновить аватар'
+        name='update-avatar'
+        isOpen={isEditAvatarPopupOpen}
+        onClose={closeAllPopups}>
+
+        <input id="avatar-link" type="url" name="avatar" className="popup__input" value="" placeholder="Ссылка на аватар" required aria-label="Ссылка на аватар" />
+        <span className="popup__input-error popup__input-error_avatar" id="avatar-link-error"></span>
+
+      </PopupWithForm>
+
+      <PopupWithForm
+        title='Вы уверены?'
+        name='popup-confirm'>
+      </PopupWithForm>
+
+      {/*  <ImagePopup
+        isOpen={handleEditAvatarClick}
+        onClose={closeEditPopup}
+      >
+
+      </ImagePopup> */}
+      {/* <section className="popup popup-profile">
         <form className="popup__container" name="popup" id="edit" method="post" action="#" autocomplete="off" novalidate>
           <h3 className="popup__title">Редактировать профиль</h3>
           <input className="popup__input popup__input_name" type="text" id="title-name" name="name" value="" placeholder="Имя" aria-label="Имя" required minlength="2" maxlength="40" />
@@ -25,9 +101,9 @@ function App() {
           <button className="popup__form-submit" type="submit">Сохранить</button>
           <button className="popup__close" type="button"><img src={closeIcon} className="popup__close-image" alt="кнопка закрытия" /></button>
         </form>
-      </section>
+      </section> */}
 
-      <section className="popup popup-add">
+      {/* <section className="popup popup-add">
         <form className="popup__container" name="popup-add" method="post" action="#" autocomplete="off" id="add" novalidate>
           <h3 className="popup__title">Новое Место</h3>
           <input className="popup__input popup__input_place" type="text" name="name" id="place-name" value="" placeholder="Название" required minlength="2" maxlength="30" />
@@ -37,27 +113,27 @@ function App() {
           <button className="popup__form-submit " type="submit">Создать</button>
           <button className="popup__close" type="button"><img src={closeIcon} className="popup__close-image" alt="кнопка закрытия" /></button>
         </form>
-      </section>
+      </section> */}
 
-      <section className="popup popup-image">
+      {/* <section className="popup popup-image">
         <form className="popup-image__container" name="popup-image">
           <button className="popup__close" type="button"><img src={closeIcon} className="popup-image__close-btn" alt="кнопка закрытия" /></button>
           <img src="#" alt="#" className="popup-image__content" id="img01" />
           <div className="popup-image__caption"></div>
         </form>
-      </section>
+      </section> */}
 
-      <section className="popup popup-confirm">
+      {/* <section className="popup popup-confirm">
         <form className="popup__container popup__container_confirm">
-          <button type="button" className="popup__close"><img src={closeIcon} className="popup__close-image" alt="кнопка закрытия" /></button>/button>
+          <button type="button" className="popup__close"><img src={closeIcon} className="popup__close-image" alt="кнопка закрытия" /></button>
           <h2 className="popup__title popup__title-confirm">Вы уверены?</h2>
           <div name="confirm" className="popup__form" novalidate>
             <button type="submit" className="popup__form-submit popup__form-submit_confirm">Да</button>
           </div>
         </form>
-      </section>
+      </section> */}
 
-      <section className="popup popup-update-avatar">
+      {/*  <section className="popup popup-update-avatar">
         <form className="popup__container popup__container_avatar">
           <button type="button" className="popup__close"><img src={closeIcon} className="popup__close-image" alt="кнопка закрытия" /></button>
           <h2 className="popup__title">Обновить аватар</h2>
@@ -71,7 +147,7 @@ function App() {
                   </button>
           </div>
         </form>
-      </section>
+      </section> */}
 
       <template className="template">
         <div className="card">
