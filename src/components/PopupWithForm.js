@@ -13,4 +13,4 @@ function PopupWithForm(props) {
         </section>
     );
 }
-export default PopupWithForm
+export default PopupWithForm;

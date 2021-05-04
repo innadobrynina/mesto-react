@@ -23,6 +23,7 @@ function Main(props) {
 
                 </section>
                 <section className="elements">
+                    {props.children}
                 </section>
             </div>
         </main>

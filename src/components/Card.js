@@ -1,0 +1,26 @@
+import React from 'react';
+
+function Card(props) {
+
+    function handleClick() {
+        props.onCardClick(props.name, props.link);
+    }
+    return (
+        <div onClick={handleClick} className="card">
+            <button type="button" className="card__remove"><img src="<%=require('./images/trash.svg')%>" alt="корзина" /></button>
+            <div className="card__image-block" style={{ backgroundImage: `url(${props.link})` }}>
+                <img src="#" alt="#" className="card__image" />
+            </div>
+            <div className="card__text">
+                <h2 className="card__title">{props.name}</h2>
+                <div className="card__like-wrap">
+                    <button className="card__like" type="button" aria-label="Мне нравится">{props.likes}</button>
+                    <span className="card__likes-counter"></span>
+                </div>
+            </div>
+
+        </div>
+    );
+}
+
+export default Card;

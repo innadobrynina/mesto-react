@@ -4,7 +4,8 @@ import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
 import PopupWithForm from './PopupWithForm';
-/* import ImagePopup from "./ImagePopup"; */
+import Card from './Card.js'
+import ImagePopup from "./ImagePopup";
 import configAPI from '../utils/Api.js';
 
 
@@ -17,6 +18,9 @@ function App() {
   const [isAddPlacePopupOpen, setisAddPlacePopupOpen] = useState(false);
 
   const [user, setUser] = useState({});
+  const [cards, setCards] = useState([]);
+
+  const [selectedCard, setSelectedCard] = useState({ link: '', name: '', isOpen: false });
 
   function handleEditAvatarClick() {
     setisEditAvatarPopupOpen(true);
@@ -31,10 +35,21 @@ function App() {
   }
 
 
+  function handleCardClick(name, link) {
+    setSelectedCard({
+      name: name,
+      link: link,
+      isOpen: true
+    });
+  }
+
+
+
   function closeAllPopups() {
     setisEditAvatarPopupOpen(false);
     setEditProfilePopupOpen(false);
-    setisAddPlacePopupOpen(false)
+    setisAddPlacePopupOpen(false);
+    setSelectedCard({ link: '', name: '', isOpen: false })
   }
 
   useEffect(() => {
@@ -52,7 +67,15 @@ function App() {
       })
   }, [])
 
-
+  useEffect(() => {
+    configAPI.getCards()
+      .then((results) => {
+        setCards(results);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }, [])
 
   return (
     <div className="root">
@@ -63,8 +86,16 @@ function App() {
         onAddPlace={handleAddPlaceClick}
         userAvatar={user.avatar}
         userName={user.name}
-        userDescription={user.description}
-      />
+        userDescription={user.description}>
+        {cards.map((card) =>
+
+          <Card
+            key={card._id}
+            onCardClick={handleCardClick}
+            link={card.link}
+            name={card.name}
+            likes={card.likes.length} />)}
+      </Main>
       <Footer />
       <PopupWithForm
         title='Редактировать профиль'
@@ -104,11 +135,12 @@ function App() {
         name='popup-confirm'>
       </PopupWithForm>
 
-      {/*  <ImagePopup
-        isOpen={handleEditAvatarClick}
-        onClose={closeEditPopup}
-      >
-
+      <ImagePopup
+        card={selectedCard}
+        isOpen={selectedCard.isOpen}
+        onClose={closeAllPopups}
+      />
+      {/*
       </ImagePopup> */}
       {/* <section className="popup popup-profile">
         <form className="popup__container" name="popup" id="edit" method="post" action="#" autocomplete="off" novalidate>
@@ -168,23 +200,7 @@ function App() {
         </form>
       </section> */}
 
-      <template className="template">
-        <div className="card">
-          <button type="button" className="card__remove"><img src="<%=require('./images/trash.svg')%>" alt="корзина" /></button>
-          <div className="card__image-block">
-            <img src="#" alt="#" className="card__image" />
-          </div>
-          <div className="card__text">
-            <h2 className="card__title"></h2>
-            <div className="card__like-wrap">
-              <button className="card__like" type="button" aria-label="Мне нравится"></button>
-              <span className="card__likes-counter"></span>
-            </div>
-          </div>
 
-        </div>
-
-      </template>
     </div>
   );
 }
