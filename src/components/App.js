@@ -87,6 +87,7 @@ function App() {
         userAvatar={user.avatar}
         userName={user.name}
         userDescription={user.description}>
+
         {cards.map((card) =>
 
           <Card
@@ -94,7 +95,9 @@ function App() {
             onCardClick={handleCardClick}
             link={card.link}
             name={card.name}
-            likes={card.likes.length} />)}
+            likes={card.likes.length} />
+        )}
+
       </Main>
       <Footer />
       <PopupWithForm
@@ -102,9 +105,9 @@ function App() {
         name='profile'
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}>
-        <input className="popup__input popup__input_name" type="text" id="title-name" name="name" value="" placeholder="Имя" aria-label="Имя" required minlength="2" maxlength="40" />
+        <input className="popup__input popup__input_name" type="text" id="title-name" name="name" placeholder="Имя" aria-label="Имя" required minLength={2} maxLength={40} />
         <span className="popup__input-error popup__input-error_name" id="title-name-error"></span>
-        <input className="popup__input popup__input_about" type="text" id="about-name" name="about" value="" placeholder="Род деятельности" aria-label="О себе" required minlength="2" maxlength="200" />
+        <input className="popup__input popup__input_about" type="text" id="about-name" name="about" placeholder="Род деятельности" aria-label="О себе" required minLength={2} maxLength={200} />
         <span className="popup__input-error popup__input-error_about" id="about-name-error"></span>
       </PopupWithForm>
 
@@ -113,9 +116,9 @@ function App() {
         name='add'
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}>
-        <input className="popup__input popup__input_place" type="text" name="name" id="place-name" value="" placeholder="Название" required minlength="2" maxlength="30" />
+        <input className="popup__input popup__input_place" type="text" name="name" id="place-name" placeholder="Название" required minLength={2} maxLength={30} />
         <span className="popup__input-error popup__input-error_place" id="place-name-error"></span>
-        <input className="popup__input popup__input_image" type="url" name="link" id="link-image" value="" placeholder="Ссылка на картинку" required />
+        <input className="popup__input popup__input_image" type="url" name="link" id="link-image" placeholder="Ссылка на картинку" required />
         <span className="popup__input-error popup__input-error_image" id="link-image-error"></span>
       </PopupWithForm>
 
@@ -125,7 +128,7 @@ function App() {
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}>
 
-        <input id="avatar-link" type="url" name="avatar" className="popup__input" value="" placeholder="Ссылка на аватар" required aria-label="Ссылка на аватар" />
+        <input id="avatar-link" type="url" name="avatar" className="popup__input" placeholder="Ссылка на аватар" required aria-label="Ссылка на аватар" />
         <span className="popup__input-error popup__input-error_avatar" id="avatar-link-error"></span>
 
       </PopupWithForm>
