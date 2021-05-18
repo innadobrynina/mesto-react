@@ -59,11 +59,21 @@ class Api {
         }).then(this._checkResponse);
     }
 
+
     deleteLike(cardId) {
         return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
             method: "DELETE",
             headers: this._headers,
         }).then(this._checkResponse);
+    }
+
+    changeLikeCardStatus(cardId, isLiked) {
+        if (isLiked) {
+            return this.putLike(cardId)
+        }
+        else {
+            return this.deleteLike(cardId)
+        }
     }
 
     updateAvatar(avatar) {

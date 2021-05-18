@@ -32,9 +32,12 @@ function App() {
     setIsAddPlacePopupOpen(true);
   }
 
-  function handleCardClick(card) {
-    setSelectedCard(card);
-    setIsImagePopupOpen(true);
+  function handleCardClick(name, link) {
+    setSelectedCard({
+      name: name,
+      link: link,
+      isOpen: true
+    });
   }
 
   function closeAllPopups() {
@@ -71,11 +74,12 @@ function App() {
   }, [])
 
   function handleCardDelete(card) {
-    api.deleteCard(card._id).then(() => {
-      // Определяем, являемся ли мы владельцем текущей карточки
-      const isOwn = card.owner._id === currentUser._id;
-      setCards(isOwn);
-    })
+    api.deleteCard(card._id)
+      .then(() => {
+        // Определяем, являемся ли мы владельцем текущей карточки
+        const newCards = cards.filter((c) => c._id !== card._id);
+        setCards(newCards);
+      })
       .catch((err) =>
         console.log(`Ошибка: ${err}`));
   }
@@ -85,7 +89,7 @@ function App() {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
 
 
-    api.putLike(card._id, !isLiked)
+    api.changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
       })
@@ -105,7 +109,8 @@ function App() {
           cards={cards}
           onCardDelete={handleCardDelete}
           onCardLike={handleCardLike}
-        />
+        >
+        </Main>
 
         <Footer />
         <PopupWithForm
