@@ -1,30 +1,10 @@
 import React from 'react';
-import api from '../utils/api.js';
 import Card from './Card.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
 
 
 function Main(props) {
     const currentUser = React.useContext(CurrentUserContext);
-
-    /* const [user, setUser] = useState(); */
-
-    /*  const [userDescription, setUserDescription] = useState();
-     const [userAvatar, setUserAvatar] = useState(); */
-
-
-    /*   useEffect(() => {
-          api.getUserInfo()
-              .then(results => {
-                  setUser(results.name);
-                  setUserDescription(results.about);
-                  setUserAvatar(results.avatar);
-              })
-              .catch(err =>
-                  console.log(err));
-      }, []); */
-
-
 
     return (
         <main>
