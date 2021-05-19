@@ -11,7 +11,7 @@ function Card(props) {
 
     // Создаём переменную, которую после зададим в `className` для кнопки удаления
     const cardDeleteButtonClassName = (
-        `card__remove ${!isOwn ? 'card__remove_visible' : 'card__remove_hidden'}`
+        `card__remove ${isOwn ? 'card__remove_visible' : 'card__remove_hidden'}`
     );
 
     // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
