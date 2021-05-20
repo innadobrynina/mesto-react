@@ -9,6 +9,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import api from '../utils/api';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
 
 function App() {
 
@@ -118,6 +119,14 @@ function App() {
       .finally(() => closeAllPopups());
   }
 
+  function handleAddPlaceSubmit(currentUser) {
+    api.createCard(currentUser)
+      .then((results) => setCards([results, ...cards]))
+      .catch((err) =>
+        console.log(`Ошибка: ${err}`))
+      .finally(() => closeAllPopups());
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="root">
@@ -140,17 +149,12 @@ function App() {
           onUpdateUser={handleUpdateUser}
         />
 
-        <PopupWithForm
-          title='Новое место'
-          name='add'
-          buttonText='Создать'
+        <AddPlacePopup
+
           isOpen={isAddPlacePopupOpen}
-          onClose={closeAllPopups}>
-          <input className="popup__input popup__input_place" type="text" name="name" id="place-name" placeholder="Название" required minLength={2} maxLength={30} />
-          <span className="popup__input-error popup__input-error_place" id="place-name-error"></span>
-          <input className="popup__input popup__input_image" type="url" name="link" id="link-image" placeholder="Ссылка на картинку" required />
-          <span className="popup__input-error popup__input-error_image" id="link-image-error"></span>
-        </PopupWithForm>
+          onClose={closeAllPopups}
+          onAddPlace={handleAddPlaceSubmit}
+        />
 
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
