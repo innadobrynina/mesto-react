@@ -4,8 +4,7 @@ import closeIcon from '../images/close_icon.svg'
 function ImagePopup(props) {
     return (
         <section
-            className={`popup popup_type_${props.name} ${props.isOpen ? "popup_opened" : ""}`}
-        >
+            className={props.isOpen ? 'popup popup_opened' : 'popup'} id="popup-image">
             <div className="popup-image__container">
                 <button onClick={props.onClose} className="popup__close" aria-label="Закрыть" type="button">
                     <img src={closeIcon} className="popup-image__close-btn" alt="кнопка закрытия" />

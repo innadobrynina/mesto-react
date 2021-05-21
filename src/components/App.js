@@ -16,7 +16,6 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
 
   const [selectedCard, setSelectedCard] = useState({ link: '', name: '', isOpen: false });
 
@@ -48,21 +47,18 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
-    setIsImagePopupOpen(false);
     setSelectedCard({ link: '', name: '', isOpen: false })
   }
 
   useEffect(() => {
     api.getUserInfo()
       .then((results) => {
-        setCurrentUser(
-          {
-            _id: results._id,
-            name: results.name,
-            about: results.about,
-            avatar: results.avatar
-          }
-        )
+        setCurrentUser({
+          _id: results._id,
+          name: results.name,
+          about: results.about,
+          avatar: results.avatar
+        })
       })
       .catch((err) =>
         console.log(`Ошибка: ${err}`));
@@ -104,27 +100,31 @@ function App() {
   function handleUpdateUser(currentUser) {
     api.setUserInfo(currentUser)
       .then((results) => {
-        setCurrentUser(results)
+        setCurrentUser(results);
+        closeAllPopups()
       })
       .catch((err) =>
-        console.log(`Ошибка: ${err}`))
-      .finally(() => closeAllPopups());
+        console.log(`Ошибка: ${err}`));
   }
 
   function handleUpdateAvatar(avatar) {
     api.updateAvatar(avatar)
-      .then((avatar) => setCurrentUser(avatar))
+      .then((avatar) => {
+        setCurrentUser(avatar);
+        closeAllPopups()
+      })
       .catch((err) =>
-        console.log(`Ошибка: ${err}`))
-      .finally(() => closeAllPopups());
+        console.log(`Ошибка: ${err}`));
   }
 
   function handleAddPlaceSubmit(currentUser) {
     api.createCard(currentUser)
-      .then((results) => setCards([results, ...cards]))
+      .then((results) => {
+        setCards([results, ...cards]);
+        closeAllPopups()
+      })
       .catch((err) =>
-        console.log(`Ошибка: ${err}`))
-      .finally(() => closeAllPopups());
+        console.log(`Ошибка: ${err}`));
   }
 
   return (
@@ -170,8 +170,8 @@ function App() {
 
         <ImagePopup
           card={selectedCard}
-          isOpen={isImagePopupOpen}
-          onClose={closeAllPopups}
+          isOpen={selectedCard.isOpen}
+          onClose={() => closeAllPopups()}
         />
       </div>
     </CurrentUserContext.Provider>
