@@ -8,4 +8,4 @@
 + открытие и закрытие всплывающих окон для описанного выше;
 + счетчик лайков;
 
-## Проект:  https://innadobrynina.github.io/mesto
+## Проект:  https://innadobrynina.github.io/mesto-react/
